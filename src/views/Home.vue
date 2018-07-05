@@ -1,18 +1,29 @@
 <template>
   <div class="home">
-    <img src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <LeftSide v-if="showLeftPanel"></LeftSide>
+    <ProviderSearchMap name="provider-search"></ProviderSearchMap>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+import { mapGetters } from 'vuex';
+import ProviderSearchMap from '@/components/ProviderMap.vue';
+import LeftSide from '@/components/ProviderResults.vue';
 
 export default Vue.extend({
   name: 'home',
   components: {
-    HelloWorld,
+    ProviderSearchMap,
+    LeftSide,
   },
+  computed: {
+    ...mapGetters({
+       LeftPanelStatus: "getLeftPanelStatus"
+    }),
+    showLeftPanel () {
+      return this.LeftPanelStatus;
+    }
+  }
 });
 </script>
