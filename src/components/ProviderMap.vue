@@ -30,6 +30,11 @@ export default Vue.extend({
       center: new google.maps.LatLng(store.state.lat,store.state.lng),
       mapTypeControl: false,
       zoomControl: false,
+      styles: [{
+          stylers: [{ 
+               saturation: -100 
+              }]
+      }]
     }
 
     map = new google.maps.Map(element, options);

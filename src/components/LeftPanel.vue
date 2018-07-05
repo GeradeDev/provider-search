@@ -12,23 +12,27 @@
 
     <div class="provider-search-results col-sm-12" v-if="!showLoading">
         <div class="provider-item" v-for="(p, index) in getProviders" :key="index">
-          <h3>Provider name</h3>
-          <div class="provider-item-detail">
-            <i class="fa fa-info-circle"></i> 
-            <span>Provider number</span>
-          </div>      
-          <div class="provider-item-detail">
-            <i class="fa fa-compass"></i> 
-            <span>Provider address</span>
-          </div>   
-           <div class="provider-item-detail">
-            <i class="fa fa-phone"></i> 
-            <span>Provider contact number</span>
-          </div>   
-          <div class="provider-item-detail">
-            <i class="fa fa-clipboard-check"></i> 
-            <span>Is network provider</span>
-          </div>  
+          <p>{{p.ProviderName}}</p>
+          <div class="col-sm-6 float-left pl-0">
+            <div class="provider-item-detail">
+              <i class="fa fa-info-circle"></i> 
+              <span>{{p.ProviderNumber}}</span>
+            </div>      
+            <div class="provider-item-detail">
+              <i class="fa fa-compass"></i> 
+              <span>Provider address</span>
+            </div>   
+          </div>
+          <div class="col-sm-6 float-left pl-0">
+              <div class="provider-item-detail">
+              <i class="fa fa-phone"></i> 
+              <span>{{p.ProviderTelNo}}</span>
+            </div>   
+            <div class="provider-item-detail">
+              <i class="fa fa-clipboard-check"></i> 
+              <span>{{p.ProviderNetwork}}</span>
+            </div> 
+          </div> 
         </div> 
     </div>
     
@@ -68,7 +72,6 @@ export default Vue.extend({
         display: block;
         z-index: 1;
         position: relative;
-        overflow: hidden;
     }
 
     .left-panel-header{
@@ -81,22 +84,29 @@ export default Vue.extend({
     }
 
     .provider-search-results .provider-item{
-      border: 1px solid black;
-      margin-bottom: 15px;
       padding: 15px;
+      min-height: 115px;
+    }
+
+    .provider-search-results .provider-item p {
+       margin: 0px;
+    }
+
+    .provider-item .provider-item-detail:first-child{
+        margin-top: 10px;
     }
 
     .provider-item-detail{
       margin-bottom: 5px;
+      color:#8c8c8c;
     }
     
     .provider-item-detail i {
-      font-size: 18px;
       width: 15px;
     }
 
      .provider-item-detail span {
-      margin-left: 15px;
+        margin-left: 15px;
     }
 
 

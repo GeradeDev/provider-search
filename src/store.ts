@@ -1,10 +1,16 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import axios from 'axios'
+
+import providerQueries from '../src/integrations/providerApi'
+import handler from '../src/integrations/requestHandler'
+import { STATUS_CODES } from 'http';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    isIntializing: true,
     lat:-30.559482,
     lng:22.937505999999985,
     showLeft: false,
@@ -12,6 +18,9 @@ export default new Vuex.Store({
     providers: []
   },
   getters: {
+    getIntilizingStatus: state => {
+      return state.isIntializing;
+    },
     getLeftPanelStatus: state => {
       return state.showLeft;
     },
@@ -41,20 +50,36 @@ export default new Vuex.Store({
     },
     setProviderSeachResult (state, payload) {
       state.providers = payload.results;
+    },
+    stopAppInitialization (state) {
+      state.isIntializing = false;
     }
   },
   actions: {
-    getProvidersForLocation ({commit}) {
+    getProvidersForLocation ({commit, state}) {
       commit("toggleLoadingStatus");
+      
+      const query = providerQueries.Search(state.lat, state.lng).query;
+      
+      axios.get(query)
+      .then(function (response) {
 
-      setTimeout(function () { 
-        let searchResults = ["Number 1", "Number 2", "Number 3", "Number 4"];
+          commit("setProviderSeachResult", {results: response.data });
 
-        commit("setProviderSeachResult", {results: searchResults });
-
+      })
+      .catch(function (error) {
+          // handle error
+          console.log(error);
+      })
+      .then(function () {
         commit("toggleLoadingStatus");
-      }, 4000)
-
+      });
+    },
+    stopInit({commit}) {
+      setTimeout(function () {
+        console.log("executing stop");
+        commit("stopAppInitialization");
+      }, 3000);
     }
   },
 });
