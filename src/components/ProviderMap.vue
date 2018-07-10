@@ -117,6 +117,8 @@ export default Vue.extend({
         width: 100%;
         height: 100%;
         background: gray;
-        position: unset !important;
+        position: absolute !important;
+        top: 0;
+        left: 0;
     }
 </style>

@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios'
 
-import providerQueries from '../src/integrations/providerApi'
+import providerQueries from '../src/integrations/api'
 import handler from '../src/integrations/requestHandler'
 import { STATUS_CODES } from 'http';
 

@@ -1,4 +1,8 @@
 
+import axios from 'axios'
+
+
+
 const endPoint = "http://membersrevamp.warpdemo.co.za/api/ProviderSearch/";
 
 export const SearchProviders = (lat:number, lng:number) => ({

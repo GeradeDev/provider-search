@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <LeftSide v-if="showLeftPanel"></LeftSide>
+    <BenefitOptions></BenefitOptions>
     <ProviderSearchMap name="provider-search"></ProviderSearchMap>
 
     <Loading></Loading>
@@ -12,6 +13,9 @@ import Vue from 'vue';
 import { mapGetters } from 'vuex';
 import ProviderSearchMap from '@/components/ProviderMap.vue';
 import LeftSide from '@/components/LeftPanel.vue';
+import BenefitOptions from '@/components/BenefitOptionSelector.vue';
+
+
 import Loading from '@/components/Loading.vue';
 
 export default Vue.extend({
@@ -19,9 +23,10 @@ export default Vue.extend({
   components: {
     ProviderSearchMap,
     LeftSide,
+    BenefitOptions,
     Loading,
   },
-  computed: {
+  computed: { 
     ...mapGetters({
        LeftPanelStatus: "getLeftPanelStatus"
     }),

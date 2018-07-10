@@ -10,30 +10,10 @@
       <span>Pleas wait...</span>
     </div>
 
+    <ResultsFilter v-if="!showLoading"></ResultsFilter>
+
     <div class="provider-search-results col-sm-12" v-if="!showLoading">
-        <div class="provider-item" v-for="(p, index) in getProviders" :key="index">
-          <p>{{p.ProviderName}}</p>
-          <div class="col-sm-6 float-left pl-0">
-            <div class="provider-item-detail">
-              <i class="fa fa-info-circle"></i> 
-              <span>{{p.ProviderNumber}}</span>
-            </div>      
-            <div class="provider-item-detail">
-              <i class="fa fa-compass"></i> 
-              <span>Provider address</span>
-            </div>   
-          </div>
-          <div class="col-sm-6 float-left pl-0">
-              <div class="provider-item-detail">
-              <i class="fa fa-phone"></i> 
-              <span>{{p.ProviderTelNo}}</span>
-            </div>   
-            <div class="provider-item-detail">
-              <i class="fa fa-clipboard-check"></i> 
-              <span>{{p.ProviderNetwork}}</span>
-            </div> 
-          </div> 
-        </div> 
+        <Results></Results>
     </div>
     
   </div>
@@ -44,20 +24,21 @@
 import { mapGetters } from 'vuex';
 import Vue from 'vue';
 
+import ResultsFilter from '@/components/Filter.vue';
+import Results from '@/components/ProviderSearchResults.vue';
+
 export default Vue.extend({
   name: 'providers',
   components: {
+    Results,
+    ResultsFilter
   },
   computed: {
     ...mapGetters({
        GetWaitStatus: "getLoadingStatus",
-       providers: "getProviders"
     }),
     showLoading () {
       return this.GetWaitStatus;
-    },
-    getProviders () {
-      return this.providers;
     }
   }
 });
@@ -72,42 +53,25 @@ export default Vue.extend({
         display: block;
         z-index: 1;
         position: relative;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        float: left;
     }
 
     .left-panel-header{
-      background-color: #3F51B5;
+      background: linear-gradient(60deg,#8cc63f,#8cc63f);
+      box-shadow: 0 12px 20px -10px rgba(140,198,63,.28), 0 4px 20px 0 rgba(0,0,0,.12), 0 7px 8px -5px rgba(140,198,63,.2);
       padding: 18px;
     }
 
-    .provider-search-results{
-      padding: 15px;
+    ::-webkit-scrollbar {
+        width: 8px;
     }
 
-    .provider-search-results .provider-item{
-      padding: 15px;
-      min-height: 115px;
+    ::-webkit-scrollbar-thumb {
+        background: #8cc63f;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
     }
-
-    .provider-search-results .provider-item p {
-       margin: 0px;
-    }
-
-    .provider-item .provider-item-detail:first-child{
-        margin-top: 10px;
-    }
-
-    .provider-item-detail{
-      margin-bottom: 5px;
-      color:#8c8c8c;
-    }
-    
-    .provider-item-detail i {
-      width: 15px;
-    }
-
-     .provider-item-detail span {
-        margin-left: 15px;
-    }
-
 
 </style>
