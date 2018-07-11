@@ -1,33 +1,43 @@
 <template>
   <div class="benoptions">
-      <div class="option-avatar">
-          <img src="https://www.medihelp.co.za/App_Themes/Branding/Images/product-icons/icn-dp1.png" />
-      </div>
-      <div class="option-details">
-          <div>Dimension Prime 3</div>
-      </div>
-      <div class="options-selector-menu">
-          <div class="fa fa-ellipsis-v"></div>
-      </div>
+    <div class="option-avatar">
+        <img src="https://www.medihelp.co.za/App_Themes/Branding/Images/product-icons/icn-dp1.png" />
+    </div>
+    <div class="option-details">
+        <div>Dimension Prime 3</div>
+    </div>
+    <div class="options-selector-menu">
+        <div class="fa fa-ellipsis-v" v-on:click="toggleOptionMenu"></div>
+    </div>
+    <ul class="dropdown benefit-options" v-if="showOptionsMenu">
+        <li v-for="(bo, index) in MedihelpOptions" :key="index" value="">{{bo.Name}}</li>
+    </ul>
+
   </div>
 </template>
 
 <script lang="ts">
 
-import { mapGetters } from 'vuex';
 import Vue from 'vue';
+import { mapGetters, mapActions } from 'vuex';
 
 export default Vue.extend({
   name: 'option-selector',
   components: {
   },
+  created () {
+      this.$store.dispatch("getBenefitOptions");
+  },
   computed: {
     ...mapGetters({
-       benefitoptions: "getBenefitOptions"
-    }),
-    getOptions () {
-      return this.benefitoptions;
-    }
+       "showOptionsMenu": "getOptionsStatus",
+       "MedihelpOptions":"getMedihelpOptions"
+    })
+  },
+  methods: {
+      ...mapActions({
+       "toggleOptionMenu": "showHideOptionMenu"
+    })
   }
 });
 </script>
@@ -83,6 +93,39 @@ export default Vue.extend({
     .fa-ellipsis-v{
         font-size: 24px;
         padding-top: 12px;
+    }
+
+    .benefit-options{
+        position: absolute;
+        top: 110%;
+        left: 0;
+        right: 0;
+        padding-left: 0px;
+        list-style: none;
+        background: #fff;
+        font-weight: normal;
+        pointer-events: none;
+        transition: all 0.3s ease-out;
+    }
+
+    .benefit-options li:hover{
+        background: #ccc;
+        color: #fff;
+    }
+
+    .benefit-options.active{
+        opacity: 0;
+    }
+
+    .benefit-options li {
+        padding: 12px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .benefit-options:before {
+        border-width: 0 8px 8px 8px;
+        border-style: solid;
+        border-color: rgba(0,0,0,0.1) transparent;    
     }
 
 </style>

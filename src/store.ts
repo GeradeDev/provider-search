@@ -3,8 +3,7 @@ import Vuex from 'vuex';
 import axios from 'axios'
 
 import providerQueries from '../src/integrations/api'
-import handler from '../src/integrations/requestHandler'
-import { STATUS_CODES } from 'http';
+import { MedihelpOptions } from '../src/model/BenefitOptions';
 
 Vue.use(Vuex);
 
@@ -15,7 +14,12 @@ export default new Vuex.Store({
     lng:22.937505999999985,
     showLeft: false,
     isLoading: false,
-    providers: []
+    providers: [],
+    showBenefitOptions: false,
+    filterProviderType: "",
+    filterProviderName: "",
+    nonNetworkOnly: false,
+    Benefits: []
   },
   getters: {
     getIntilizingStatus: state => {
@@ -29,6 +33,12 @@ export default new Vuex.Store({
     },
     getProviders: state => {
       return state.providers;
+    },
+    getOptionsStatus: state => {
+      return state.showBenefitOptions;
+    },
+    getMedihelpOptions: state => {
+      return state.Benefits;
     }
   },
   mutations: {
@@ -53,9 +63,25 @@ export default new Vuex.Store({
     },
     stopAppInitialization (state) {
       state.isIntializing = false;
+    },
+    toggleOptionsStatus: state => {
+      if(state.showBenefitOptions)
+        state.showBenefitOptions = false;
+      else
+        state.showBenefitOptions = true;
+    },
+    setOptions(state, payload) {
+      state.Benefits = payload.options;
     }
   },
   actions: {
+    getBenefitOptions({commit, state}) {
+      let options = new MedihelpOptions().getAllOptions();
+
+      console.log(options);
+
+      commit("setOptions", { options: options});
+    },
     getProvidersForLocation ({commit, state}) {
       commit("toggleLoadingStatus");
       
@@ -77,9 +103,11 @@ export default new Vuex.Store({
     },
     stopInit({commit}) {
       setTimeout(function () {
-        console.log("executing stop");
         commit("stopAppInitialization");
       }, 3000);
+    },
+    showHideOptionMenu ({commit, state}){
+      commit("toggleOptionsStatus");
     }
   },
 });
